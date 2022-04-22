@@ -42,4 +42,5 @@ func GetBook(c *fiber.Ctx) {
 
 	json, _ := json.Marshal(results)
 	c.Send(json)
+
 }
