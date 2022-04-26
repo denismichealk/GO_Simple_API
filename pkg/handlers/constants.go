@@ -1,5 +1,5 @@
 package handlers
 
-const dbName = "personsdb"
-const collectionName = "person"
+const dbName = "BooksDB"
+const collectionName = "book"
 const port = 8000

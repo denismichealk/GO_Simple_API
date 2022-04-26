@@ -14,6 +14,7 @@ func main() {
 	app.Post("/book", handlers.AddBook)
 	app.Put("/book/:id", handlers.UpdateBook)
 	app.Delete("/book/:id", handlers.DeleteBook)
-	app.Listen("8000")
 	fmt.Println("Now listening : 8000")
+	app.Listen("8000")
+
 }
