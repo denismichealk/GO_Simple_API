@@ -34,7 +34,11 @@ func GetAllBooks(c *fiber.Ctx) {
 	response.StatusCode = "0"
 	response.StatusDesc = "SUCCESS"
 	//response, _ := json.Marshal("Inserted")
-	c.Set("Content-type", "application/json; charset=utf-8")
-	c.Send(response)
+	err = c.JSON(response)
+
+	if err != nil {
+		c.Status(500).Send(err)
+		return
+	}
 
 }
