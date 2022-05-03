@@ -25,6 +25,11 @@ func AddBook(c *fiber.Ctx) {
 		return
 	}
 
-	response, _ := json.Marshal("Inserted")
+	response := models.Response{}
+
+	response.StatusCode = "0"
+	response.StatusDesc = "SUCCESS"
+	//response, _ := json.Marshal("Inserted")
+	c.Set("Content-type", "application/json; charset=utf-8")
 	c.Send(response)
 }

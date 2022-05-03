@@ -3,7 +3,6 @@ package handlers
 import (
 	"GO_Rest_API/pkg/MongoDA"
 	"GO_Rest_API/pkg/models"
-	"encoding/json"
 	"github.com/gofiber/fiber"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -29,6 +28,13 @@ func GetAllBooks(c *fiber.Ctx) {
 		return
 	}
 
-	json, _ := json.Marshal(results)
-	c.Send(json)
+	//json, _ := json.Marshal(results)
+	//c.Send(json)
+	response := models.Response{}
+	response.StatusCode = "0"
+	response.StatusDesc = "SUCCESS"
+	//response, _ := json.Marshal("Inserted")
+	c.Set("Content-type", "application/json; charset=utf-8")
+	c.Send(response)
+
 }

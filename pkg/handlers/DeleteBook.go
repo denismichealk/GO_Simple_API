@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"GO_Rest_API/pkg/MongoDA"
-	"encoding/json"
+	"GO_Rest_API/pkg/models"
 	"github.com/gofiber/fiber"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -23,6 +23,13 @@ func DeleteBook(c *fiber.Ctx) {
 		return
 	}
 
-	jsonResponse, _ := json.Marshal("DELETED")
-	c.Send(jsonResponse)
+	//jsonResponse, _ := json.Marshal("DELETED")
+	//c.Set("Content-type", "application/json; charset=utf-8")
+	response := models.Response{}
+	response.StatusCode = "0"
+	response.StatusDesc = "SUCCESS"
+	//response, _ := json.Marshal("Inserted")
+	c.Set("Content-type", "application/json; charset=utf-8")
+	c.Send(response)
+	//c.Send(jsonResponse)
 }
