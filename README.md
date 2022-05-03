@@ -7,9 +7,9 @@ A simple CRUD Go web api
 
 ### Dependencies
 
-Package Fiber run -> go get -v github.com/gofiber/fiber
+Package Fiber run on go terminal -> go get -v github.com/gofiber/fiber
 
-Package bson go get -v gopkg.in/mgo.v2/bson
+Package bson  run on go terminal -> go get -v gopkg.in/mgo.v2/bson
 
 
 ## Authors
