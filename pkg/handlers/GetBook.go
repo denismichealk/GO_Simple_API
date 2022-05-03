@@ -2,40 +2,27 @@ package handlers
 
 import (
 	"GO_Rest_API/pkg/MongoDA"
-	"context"
+	"GO_Rest_API/pkg/models"
 	"encoding/json"
 	"github.com/gofiber/fiber"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func GetBook(c *fiber.Ctx) {
-	collection, err := MongoDA.GetMongoDbCollection(dbName, collectionName)
-	if err != nil {
-		c.Status(500).Send(err)
-		return
-	}
+	session := MongoDA.GetMongoSession()
 
-	var filter bson.M = bson.M{}
+	results := models.Book{}
+	var res = session.DB(dbName).C(collectionName)
+	defer session.Close()
 
-	if c.Params("id") != "" {
-		id := c.Params("id")
-		objID, _ := primitive.ObjectIDFromHex(id)
-		filter = bson.M{"_id": objID}
-	}
+	//id := c.Params("id")
 
-	var results []bson.M
-	cur, err := collection.Find(context.Background(), filter)
-	defer cur.Close(context.Background())
+	id := c.Query("id")
+
+	ob := bson.ObjectIdHex(id)
+	err := res.FindId(ob).One(&results)
 
 	if err != nil {
-		c.Status(500).Send(err)
-		return
-	}
-
-	cur.All(context.Background(), &results)
-
-	if results == nil {
 		c.SendStatus(404)
 		return
 	}

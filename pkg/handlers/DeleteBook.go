@@ -2,29 +2,27 @@ package handlers
 
 import (
 	"GO_Rest_API/pkg/MongoDA"
-	"context"
 	"encoding/json"
 	"github.com/gofiber/fiber"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func DeleteBook(c *fiber.Ctx) {
-	collection, err := MongoDA.GetMongoDbCollection(dbName, collectionName)
+	session := MongoDA.GetMongoSession()
+
+	var res = session.DB(dbName).C(collectionName)
+	defer session.Close()
+
+	id := c.Query("id")
+
+	ob := bson.ObjectIdHex(id)
+	err := res.RemoveId(ob)
 
 	if err != nil {
 		c.Status(500).Send(err)
 		return
 	}
 
-	objID, _ := primitive.ObjectIDFromHex(c.Params("id"))
-	res, err := collection.DeleteOne(context.Background(), bson.M{"_id": objID})
-
-	if err != nil {
-		c.Status(500).Send(err)
-		return
-	}
-
-	jsonResponse, _ := json.Marshal(res)
+	jsonResponse, _ := json.Marshal("DELETED")
 	c.Send(jsonResponse)
 }

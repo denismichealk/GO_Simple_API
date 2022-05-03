@@ -1,13 +1,34 @@
 package handlers
 
 import (
+	"GO_Rest_API/pkg/MongoDA"
 	"GO_Rest_API/pkg/models"
 	"encoding/json"
-	"net/http"
+	"github.com/gofiber/fiber"
+	"gopkg.in/mgo.v2/bson"
 )
 
-func GetAllBooks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(models.Book{})
+func GetAllBooks(c *fiber.Ctx) {
+
+	//w := http.ResponseWriter()
+	//w.Header().Add("Content-Type", "application/json")
+	//w.WriteHeader(http.StatusOK)
+	//json.NewEncoder(w).Encode(models.Book{})
+
+	session := MongoDA.GetMongoSession()
+
+	//results := models.Book{}
+	results := make([]models.Book, 0, 10)
+	var res = session.DB(dbName).C(collectionName)
+	defer session.Close()
+
+	err := res.Find(bson.D{}).All(&results)
+
+	if err != nil {
+		c.SendStatus(404)
+		return
+	}
+
+	json, _ := json.Marshal(results)
+	c.Send(json)
 }
