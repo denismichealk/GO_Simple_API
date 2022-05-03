@@ -1,6 +1,6 @@
-# GO_Simple_API
+# Web Api
 
-A simple Go web api
+A simple CRUD Go web api 
 
 
 ## Getting Started
