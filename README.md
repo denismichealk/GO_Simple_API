@@ -1,4 +1,4 @@
-# Web Api
+# A Simple Rest Api
 
 A simple CRUD Go web api 
 
