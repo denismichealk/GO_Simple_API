@@ -9,11 +9,6 @@ import (
 
 func GetAllBooks(c *fiber.Ctx) {
 
-	//w := http.ResponseWriter()
-	//w.Header().Add("Content-Type", "application/json")
-	//w.WriteHeader(http.StatusOK)
-	//json.NewEncoder(w).Encode(models.Book{})
-
 	session := MongoDA.GetMongoSession()
 
 	//results := models.Book{}
@@ -34,7 +29,7 @@ func GetAllBooks(c *fiber.Ctx) {
 	response.StatusCode = "0"
 	response.StatusDesc = "SUCCESS"
 	//response, _ := json.Marshal("Inserted")
-	err = c.JSON(response)
+	err = c.JSON(results)
 
 	if err != nil {
 		c.Status(500).Send(err)
